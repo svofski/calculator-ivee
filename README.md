@@ -1,6 +1,17 @@
-A build of IVEE FORTH-based calculator
+# Design files for IVEE Forth-based calculator
 
 The original is here: https://github.com/zooxo/iv
+
+Expectation:
+
+![calc1.gif](doc/calc1.gif)
+
+Reality:
+
+???
+
+
+#### Parts reference:
 
 OLED 2.42 inch https://aliexpress.com/item/32950307344.html
 
