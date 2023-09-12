@@ -10,8 +10,11 @@ Reality:
 
 ???
 
+### KiCad project
 
-#### Parts reference:
+[Open in kicanvas.org](https://kicanvas.org/?github=https%3A%2F%2Fgithub.com%2Fsvofski%2Fcalculator-ivee%2Ftree%2Fmaster%2Fhardware%2Fcalc)
+
+### Parts reference:
 
 OLED 2.42 inch https://aliexpress.com/item/32950307344.html
 
