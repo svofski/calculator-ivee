@@ -1,6 +1,6 @@
 # Design files for IVEE Forth-based calculator
 
-The original is here: https://github.com/zooxo/iv
+The original is here: https://github.com/zooxo/iv ( [Youtube demo](https://www.youtube.com/watch?v=m1aFRhqvuLM) )
 
 Expectation:
 
@@ -8,7 +8,7 @@ Expectation:
 
 Reality:
 
-???
+[Youtube video of IVEE](https://www.youtube.com/watch?v=LmGt2pndoQI)
 
 ### KiCad project
 
