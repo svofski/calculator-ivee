@@ -2506,7 +2506,7 @@
     (property "Reference" "Q1" (at 226.06 35.56 90)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Value" "AP3101" (at 226.06 38.1 90)
+    (property "Value" "AP3401" (at 226.06 38.1 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Footprint" "Package_TO_SOT_SMD:SOT-23" (at 223.52 39.37 0)

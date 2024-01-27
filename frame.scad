@@ -1,6 +1,6 @@
-#
-# (Hopefully) printable key frame to be used with dome switches
-#
+//
+// (Hopefully) printable key frame to be used with dome switches
+//
 
 $fn=32;
 
@@ -17,7 +17,7 @@ button_inside_h = 0.6;
 pcb_h = 1.6;
 button_yofs = 0.6;    // height of the dome switch
 gap = 0.3;
-pushrod_r = 0.8;  // central push rod
+pushrod_r = 0.9;  // central push rod
 pushrod_h = 0.4;  // push rod length
 
 spring_h = 0.8;
@@ -86,31 +86,46 @@ module coverplate()
 }
 
 
-module button(sx=base, sy=base, base_h=button_base_h, top_h1=2, top_h2=1)
+module button(sx=base, sy=base, base_h=button_base_h, top_h1=2, top_h2=1, withbottom=1)
 {
     width = sx * unit;
     depth = sy * unit;
     depth2 = (sy - 2) * unit;
-    // pushrod
-    translate([width/2, depth/2, 0]) cylinder(r = pushrod_r, h = pushrod_h);
-    // base
-    translate([0, 0, pushrod_h]) cube([width, depth, base_h]);
 
-    width2 = width - 0.25;
+    if (withbottom)
+    {
+        // pushrod
+        translate([width/2, depth/2, 0]) cylinder(r = pushrod_r, h = pushrod_h);
+    }
 
-    // prism
-    translate([0, 0, base_h + pushrod_h])
-    hull() {
-      // prism bottom
-      cube([width, depth, eps]);
-      // prism top
-      translate([(width - width2)/2, (depth - depth2)/2 - 0.25, top_h1]) 
-          cube([width2, depth2, eps]);
-      // back slope should be almost flat
-      translate([0, depth-eps, 0]) cube([width, eps, top_h1 - top_h2]);
+    intersection()  {
+      union() {
+          // base
+          if (withbottom) {
+              translate([0, 0, pushrod_h]) cube([width, depth, base_h]);
+          }
+
+          width2 = width - 0.25;
+
+          // prism
+          translate([0, 0, base_h + pushrod_h])
+              hull() {
+                  // prism bottom
+                  cube([width, depth, eps]);
+                  // prism top
+                  translate([(width - width2)/2, (depth - depth2)/2 - 0.25, top_h1]) 
+                      cube([width2, depth2, eps]);
+                  // back slope should be almost flat
+                  translate([0, depth-eps, 0]) cube([width, eps, top_h1 - top_h2]);
+              }
+      }
+
+      translate([width/2, depth/2, 0]) cylinder(r = width/2 * sqrt(1.9), h = 5);
+
     }
 }
 
+// squiggly springs: unprintable at this scale
 module spring()
 {
     hull() {
@@ -150,13 +165,19 @@ module squiggly_springs()
         translate([-unit * pitch / 2, -unit * pitch/2, 0]) spring2();
 }
 
+// leaf springs: need to be made thicker than usable for printability
+// they will have to be cut down to be thinner in post
 module leaf_springs()
 {
-    width = unit * 1.5;
+    width = unit * 2;
     depth = unit * 2;
 
-    translate([unit * pitch / 2 - width/2, unit * pitch - depth, button_yofs + pushrod_h])
-        cube([width, depth, 0.8]);
+    // the finger should be 0.8 mm high (better less), but jlcpcb requires 1.5 min
+    // this will have to be filed down
+    height = 1.55;     
+
+    translate([unit * pitch / 2 - width/2, unit * pitch - depth + wall/2, button_yofs + pushrod_h])
+        cube([width, depth, height]);
 }
 
 module cagebutton()
@@ -183,3 +204,43 @@ module allkeys()
 allkeys();
 outercage();
 //coverplate();
+
+emboss_depth=1;
+module buttontop()
+{
+    translate([unit * (pitch - base) / 2, unit * (pitch - base) / 2, button_yofs])
+    difference() {
+        translate([0,0,eps]) button(withbottom=0);
+        scale([2, 1.01, 1]) translate([-1, -0.005, -emboss_depth]) button(withbottom=0);
+    }
+}
+
+module buttontops()
+{
+    for (y = [0:nkeys_y - 1]) translate([0, y * unit * pitch, 0]) 
+    {
+        for (x = [0:nkeys_x - 1]) translate([x * unit * pitch, 0, 0])
+        {
+            buttontop();
+        }
+    }
+}
+
+// this is insanely slow and produces buggy meshes anyway
+//module emboss()
+//{
+//    color([1,0,1])
+//        translate([0,0,0.1]) {
+//            intersection() {
+//                buttontops();
+//                //linear_extrude(15) import("botones-emboss.svg");
+//                import("text-stl.stl");
+//            }
+//        }
+//}
+
+//emboss();
+//difference() {
+//  allkeys();
+//  emboss();
+//}
