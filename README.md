@@ -10,6 +10,8 @@ Reality:
 
 [Youtube video of IVEE](https://www.youtube.com/watch?v=LmGt2pndoQI)
 
+![ivee.jpg](doc/DSCF0386.jpg)
+
 ### KiCad project
 
 [Open in kicanvas.org](https://kicanvas.org/?github=https%3A%2F%2Fgithub.com%2Fsvofski%2Fcalculator-ivee%2Ftree%2Fmaster%2Fhardware%2Fcalc)
